@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simulador de Abastecimiento de Carburantes</title>
+    <link rel="stylesheet" href="css/estilos.css">
+</head>
+<body>
+
+    <div id="contenedor-lluvia" class="lluvia-bg"></div>
+
+    <header>
+        <h1>Simulador Web de Crisis</h1>
+        <p>Herramienta educativa avanzada para la comprensión de factores de abastecimiento</p>
+    </header>
+
+    <nav>
+        <ul>
+            <li><a href="#inicio">Inicio</a></li>
+            <li><a href="#contexto">Contexto</a></li>
+            <li><a href="#simulador">Simulador</a></li>
+            <li><a href="#casos">Casos de Estudio</a></li>
+            <li><a href="#conclusiones">Conclusiones</a></li>
+        </ul>
+    </nav>
+
+    <main>
+        <section id="inicio" class="card">
+            <h2>Inicio</h2>
+            <p>Bienvenido al <strong>Simulador Avanzado de Abastecimiento</strong>. Esta aplicación representa de manera interactiva la duración de las reservas de hidrocarburos de una planta o estación de servicio frente a ritmos variables de demanda y logística de carga, utilizando cálculos matemáticos predictivos por jornada.</p>
+        </section>
+
+        <section id="contexto" class="card">
+            <h2>Contexto del Desafío</h2>
+            <p>Las contingencias en las cadenas de transporte, bloqueos de rutas y la alta demanda estacionaria alteran la regularidad en la distribución de combustibles líquidos y gaseosos. Este simulador interactivo analiza de forma analítica cómo convergen los volúmenes de almacenamiento inicial, el consumo diario neto y los ciclos de reabastecimiento.</p>
+        </section>
+
+        <section id="simulador" class="card">
+            <h2>Simulador de Reserva de Combustible</h2>
+            <p>Introduce los datos requeridos para ejecutar la simulación:</p>
+            
+            <form id="form-simulador" onsubmit="event.preventDefault();">
+                <div class="form-group">
+                    <label for="reserva-inicial">⛽ Cantidad Inicial de Carburante (Litros):</label>
+                    <input type="number" id="reserva-inicial" min="1" placeholder="Ej. 10000" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="consumo-diario">📉 Consumo Diario Estimado (Litros/día):</label>
+                    <input type="number" id="consumo-diario" min="0" placeholder="Ej. 1200" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="reabastecimiento">📈 Reabastecimiento Diario (Litros/día):</label>
+                    <input type="number" id="reabastecimiento" min="0" placeholder="Ej. 300" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="nivel-critico">⚠️ Nivel Crítico de Reserva (Litros):</label>
+                    <input type="number" id="nivel-critico" min="0" placeholder="Ej. 2000" required>
+                </div>
+
+                <div class="btn-container">
+                    <button type="button" id="btn-calcular" class="btn-primary">⚡ Calcular Reserva</button>
+                    <button type="button" id="btn-limpiar" class="btn-secondary">🔄 Limpiar Datos</button>
+                </div>
+            </form>
+        </section>
+
+        <section id="resultados" class="card hidden">
+            <h2>📊 Resultados de la Simulación</h2>
+            
+            <div id="contenedor-alerta" class="alerta"></div>
+            
+            <div class="contenedor-progreso-tanque">
+                <span class="etiqueta-progreso">Estado Crítico de Autonomía:</span>
+                <div class="barra-progreso-fondo">
+                    <div id="barra-progreso-llenado" class="barra-progreso-llenado"></div>
+                </div>
+            </div>
+
+            <div class="tabla-responsiva">
+                <h3>📋 Proyección de Inventario Día por Día</h3>
+                <table id="tabla-proyeccion">
+                    <thead>
+                        <tr>
+                            <th>Jornada</th>
+                            <th>Volumen Restante (Litros)</th>
+                            <th>Porcentaje Restante</th>
+                            <th>Estado Operativo</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        </tbody>
+                </table>
+            </div>
+        </section>
+
+        <section id="casos" class="card">
+            <h2>Casos de Estudio para Probar</h2>
+            <p>Utiliza los siguientes datos de prueba predefinidos para comprobar el correcto funcionamiento del simulador:</p>
+            <div class="tabla-responsiva">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Variables de Entrada</th>
+                            <th>Escenario de Simulación</th>
+                            <th>Resultado Esperado</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>
+                                <ul>
+                                    <li>Reserva Inicial: 10,000 L</li>
+                                    <li>Consumo Diario: 1,200 L</li>
+                                    <li>Reabastecimiento: 300 L</li>
+                                    <li>Nivel Crítico: 2,000 L</li>
+                                </ul>
+                            </td>
+                            <td><strong>Caso Oficial #1 (Déficit Logístico)</strong></td>
+                            <td>La reserva disminuye a un ritmo neto de 900 L por día. Llegará o cruzará el nivel crítico (2,000 L) en el <strong>Día 9</strong> y se vaciará por completo en el <strong>Día 12</strong>.</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <section id="conclusiones" class="card">
+            <h2>Conclusiones</h2>
+            <p>La simulación algorítmica demuestra que la tasa de reabastecimiento continuo determina la resiliencia operativa del sistema. Cuando el consumo duplica o supera la capacidad de reposición, la infraestructura entra en zona de riesgo de forma exponencial, demostrando la necesidad de mantener planes de contingencia y distribución estratégica.</p>
+        </section>
+    </main>
+
+    <footer>
+        <p>© 2026 - Desarrollo de Aplicaciones Web I</p>
+        <p>Sistema Técnico Analítico de Control Hidrocarburífero</p>
+    </footer>
+
+    <script src="js/script.js"></script>
+</body>
+</html>
